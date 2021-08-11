@@ -5,22 +5,25 @@ const LaunchRequestHandler = {
       return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-      const speechText = 'Welcome to your SDK weather skill. Ask me the weather!';
+      const speechText = 'Welcome to your Walking Buddy skill. Ask me about walking buddies in your area!';
   
       return handlerInput.responseBuilder
         .speak(speechText)
         .reprompt(speechText)
-        .withSimpleCard('Welcome to your SDK weather skill. Ask me the weather!', speechText)
+        .withSimpleCard('Welcome to your Walking Buddy skill. Ask me the weather!', speechText)
         .getResponse();
     }
   };
 
-  const AskWeatherIntentHandler = {
+  const WalkingBuddyIntentHandler = {
     canHandle(handlerInput) {
       return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AskWeatherIntent';
+        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'WalkingBuddyIntent';
     },
+    // This handler handles How someone asks for all walking buddies
     handle(handlerInput) {
+      const walkingBuddies = getHttp("http://localhost:5000/buddy");
+      console.log(walkingBuddies);
       const speechText = 'The weather today is sunny.';
   
       return handlerInput.responseBuilder
